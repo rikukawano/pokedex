@@ -5,9 +5,10 @@ class PokemonApiClient {
   final String _baseUrl = "https://pokeapi.co/api/v2/pokemon/";
 
   // GET request
-  Future<dynamic> get(String url) async {
+  Future<dynamic> get(int pokemonId) async {
     try {
-      final response = await http.get(Uri.parse(_baseUrl + url));
+      final response =
+          await http.get(Uri.parse(_baseUrl + pokemonId.toString()));
       return _parseResponse(response.statusCode, response.body);
     } on SocketException {
       throw Exception("No Internet Connection");
