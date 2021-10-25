@@ -4,7 +4,7 @@ class Pokemon {
   final int id;
   final String name;
   final Sprites sprites;
-  final List<Type> types;
+  final List<Types> types;
 
   Pokemon({
     required this.id,
@@ -18,7 +18,7 @@ class Pokemon {
       id: map['id'].toInt(),
       name: map['name'],
       sprites: Sprites.fromMap(map['sprites']),
-      types: List<Type>.from(map['types']?.map((x) => Type.fromMap(x))),
+      types: List<Types>.from(map['types']?.map((x) => Types.fromMap(x))),
     );
   }
 

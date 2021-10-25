@@ -3,21 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/services/pokemon_api_client.dart';
 
-// data class stored in state
-class Pokemons {
+// state
+class PokemonState {
   List<Pokemon> pokemons = [];
 }
 
-// state
-class PokemonsState extends StateNotifier<Pokemons> {
-  PokemonsState() : super(Pokemons());
+// ViewModel for managing state
+class PokemonViewModel extends StateNotifier<PokemonState> {
+  PokemonViewModel() : super(PokemonState());
 
   Future<void> fetchPokemons() async {
     const int maxNumber = 385;
     for (int i = 1; i <= maxNumber; i++) {
       try {
         final responseBody = await PokemonApiClient().get(i);
-        state.pokemons.add(Pokemon.fromJson(responseBody));
+        state = [...state as Iterable, Pokemon.fromJson(responseBody)]
+            as PokemonState;
       } catch (e) {
         print(e);
       }
@@ -26,4 +27,5 @@ class PokemonsState extends StateNotifier<Pokemons> {
 }
 
 // provider
-final pokemonProvider = StateNotifierProvider((_) => PokemonsState());
+final pokemonProvider = StateNotifierProvider<PokemonViewModel, PokemonState>(
+    (_) => PokemonViewModel());
