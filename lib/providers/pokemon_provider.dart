@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/services/pokemon_api_client.dart';
 
-// state
+// State
 class PokemonState {
   List<Pokemon> pokemons = [];
 }
@@ -26,6 +26,6 @@ class PokemonViewModel extends StateNotifier<PokemonState> {
   }
 }
 
-// provider
+// Provider
 final pokemonProvider = StateNotifierProvider<PokemonViewModel, PokemonState>(
     (_) => PokemonViewModel());
