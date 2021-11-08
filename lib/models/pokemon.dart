@@ -42,21 +42,39 @@ class Sprites {
       Sprites.fromMap(json.decode(source));
 }
 
-class StatItem {
+class Stat {
   final int baseStat;
   final int effort;
-  final Stat stat;
-  StatItem({
+  final StatItem stat;
+  Stat({
     required this.baseStat,
     required this.effort,
     required this.stat,
   });
 
-  factory StatItem.fromMap(Map<String, dynamic> map) {
-    return StatItem(
+  factory Stat.fromMap(Map<String, dynamic> map) {
+    return Stat(
       baseStat: map['base_stat']?.toInt(),
       effort: map['effort']?.toInt(),
-      stat: Stat.fromMap(map['stat']),
+      stat: StatItem.fromMap(map['stat']),
+    );
+  }
+
+  factory Stat.fromJson(String source) => Stat.fromMap(json.decode(source));
+}
+
+class StatItem {
+  final String name;
+  final String url;
+  StatItem({
+    required this.name,
+    required this.url,
+  });
+
+  factory StatItem.fromMap(Map<String, dynamic> map) {
+    return StatItem(
+      name: map['name'],
+      url: map['url'],
     );
   }
 
@@ -64,20 +82,39 @@ class StatItem {
       StatItem.fromMap(json.decode(source));
 }
 
-class Stat {
+class Type {
+  final int slot;
+  final TypeItem type;
+  Type({
+    required this.slot,
+    required this.type,
+  });
+
+  factory Type.fromMap(Map<String, dynamic> map) {
+    return Type(
+      slot: map['slot']?.toInt(),
+      type: TypeItem.fromMap(map['type']),
+    );
+  }
+
+  factory Type.fromJson(String source) => Type.fromMap(json.decode(source));
+}
+
+class TypeItem {
   final String name;
   final String url;
-  Stat({
+  TypeItem({
     required this.name,
     required this.url,
   });
 
-  factory Stat.fromMap(Map<String, dynamic> map) {
-    return Stat(
+  factory TypeItem.fromMap(Map<String, dynamic> map) {
+    return TypeItem(
       name: map['name'],
       url: map['url'],
     );
   }
 
-  factory Stat.fromJson(String source) => Stat.fromMap(json.decode(source));
+  factory TypeItem.fromJson(String source) =>
+      TypeItem.fromMap(json.decode(source));
 }
