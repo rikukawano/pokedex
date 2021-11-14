@@ -3,21 +3,43 @@ import 'dart:convert';
 class Pokemon {
   final int id;
   final String name;
-  final Sprites sprites;
-  final List<StatItem> stats;
+  // final Sprites sprites;
+  final List<Stat> stats;
+  final List<Type> types;
 
   Pokemon({
     required this.id,
     required this.name,
-    required this.sprites,
+    // required this.sprites,
     required this.stats,
+    required this.types,
   });
 
-  factory Pokemon.fromMap(Map<String, dynamic> map) {
+  static String _formatName(String name) {
+    if (name.contains('nidoran') || name == 'mime-jr') {
+      return name.replaceFirst(RegExp('-'), '_');
+    } else if (name.contains('mr')) {
+      return name.replaceFirst(RegExp('-'), '.');
+    } else if (name.contains('tapu') || name.contains('type')) {
+      return name.replaceFirst(RegExp('-'), '');
+    } else if (name.contains('-') &&
+        !(name == 'kommo-o' ||
+            name == 'jangmo-o' ||
+            name == 'hakamo-o' ||
+            name == 'ho-oh')) {
+      return name.split('-')[0];
+    } else {
+      return name;
+    }
+  }
+
+  static Pokemon fromMap(Map<String, dynamic> map) {
     return Pokemon(
       id: map['id'].toInt(),
-      name: map['name'],
-      sprites: Sprites.fromMap(map['sprites']),
+      name: _formatName(map['name']),
+      // sprites: Sprites.fromMap(map['sprites']),
+      stats: List<Stat>.from(map['stats'].map((x) => Stat.fromMap(x))),
+      types: List<Type>.from(map['types']?.map((x) => Type.fromMap(x))),
     );
   }
 
@@ -25,22 +47,22 @@ class Pokemon {
       Pokemon.fromMap(json.decode(source));
 }
 
-class Sprites {
-  final String frontDefault;
+// class Sprites {
+//   final String frontDefault;
 
-  Sprites({
-    required this.frontDefault,
-  });
+//   Sprites({
+//     required this.frontDefault,
+//   });
 
-  factory Sprites.fromMap(Map<String, dynamic> map) {
-    return Sprites(
-      frontDefault: map['front_default'],
-    );
-  }
+//   factory Sprites.fromMap(Map<String, dynamic> map) {
+//     return Sprites(
+//       frontDefault: map['front_default'],
+//     );
+//   }
 
-  factory Sprites.fromJson(String source) =>
-      Sprites.fromMap(json.decode(source));
-}
+//   factory Sprites.fromJson(String source) =>
+//       Sprites.fromMap(json.decode(source));
+// }
 
 class Stat {
   final int baseStat;
